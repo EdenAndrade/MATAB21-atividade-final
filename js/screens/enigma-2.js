@@ -76,6 +76,7 @@ export function renderEnigma2(container, stateMachine) {
             errorsInStep++;
             showFeedback('enigma2', 'error', Math.min(errorsInStep - 1, 3), feedbackZone);
             btn.style.animation = 'shake 0.3s ease';
+            container.querySelectorAll('button').forEach(b => b.style.pointerEvents = '');
           }
         });
       });
@@ -138,6 +139,7 @@ export function renderEnigma2(container, stateMachine) {
             errorsInStep++;
             showFeedback('enigma2', 'error', Math.min(errorsInStep - 1, 3), feedbackZone);
             btn.style.animation = 'shake 0.3s ease';
+            container.querySelectorAll('button').forEach(b => b.style.pointerEvents = '');
           }
         });
       });

@@ -100,7 +100,7 @@ ${round.code.map((line, i) => `<span class="code-line" data-line="${i + 1}" styl
         el.addEventListener('mouseenter', () => { el.style.background = 'rgba(255,0,51,0.1)'; });
         el.addEventListener('mouseleave', () => { el.style.background = 'transparent'; });
         el.addEventListener('click', () => {
-          container.querySelectorAll('span').forEach(s => s.style.pointerEvents = 'none');
+          container.querySelectorAll('.code-line').forEach(s => s.style.pointerEvents = 'none');
           const result = identifyErrorLine(currentRound, parseInt(el.dataset.line));
           const feedbackZone = container.querySelector('#feedback-zone');
 
@@ -117,6 +117,7 @@ ${round.code.map((line, i) => `<span class="code-line" data-line="${i + 1}" styl
             showFeedback('enigma3', 'error', Math.min(errorsInStep - 1, 3), feedbackZone);
             el.style.background = 'rgba(255,0,51,0.15)';
             screenTimer.setTimeout(() => { el.style.background = 'transparent'; }, 800);
+            container.querySelectorAll('.code-line').forEach(s => s.style.pointerEvents = '');
           }
         });
       });
@@ -162,6 +163,7 @@ ${round.code.map((line, i) => `<span class="code-line" data-line="${i + 1}" styl
       container.querySelectorAll('.fix-btn').forEach(btn => {
         btn.addEventListener('click', () => {
           container.querySelectorAll('button').forEach(b => b.style.pointerEvents = 'none');
+          stateMachine.recordAttempt('enigma3');
           const result = validateFix(currentRound, btn.dataset.fix);
           const feedbackZone = container.querySelector('#feedback-zone');
 
@@ -182,6 +184,7 @@ ${round.code.map((line, i) => `<span class="code-line" data-line="${i + 1}" styl
             errorsInStep++;
             showFeedback('enigma3', 'error', Math.min(errorsInStep - 1, 3), feedbackZone);
             btn.style.animation = 'shake 0.3s ease';
+            container.querySelectorAll('button').forEach(b => b.style.pointerEvents = '');
           }
         });
       });
