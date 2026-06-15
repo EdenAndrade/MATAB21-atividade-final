@@ -115,6 +115,21 @@
     overflow: hidden;
   }
 
+  /* Custom scrollbar — temas escuro */
+  .screen::-webkit-scrollbar {
+    width: 6px;
+  }
+  .screen::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  .screen::-webkit-scrollbar-thumb {
+    background: rgba(139, 92, 246, 0.3);
+    border-radius: 3px;
+  }
+  .screen::-webkit-scrollbar-thumb:hover {
+    background: rgba(139, 92, 246, 0.5);
+  }
+
   @media (prefers-reduced-motion: reduce) {
     :root {
       --reduce-motion: true;

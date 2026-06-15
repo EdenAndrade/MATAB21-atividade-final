@@ -8,7 +8,7 @@
     justify-content: center;
     padding: var(--space-xl);
     z-index: 1;
-    overflow: hidden;
+    overflow-y: auto;
   }
   .screen[data-active="true"] {
     display: flex;
@@ -136,10 +136,9 @@
     padding: var(--space-sm) var(--space-md);
     border-radius: 4px;
     animation: pulse 0.3s ease;
-    max-width: 600px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    max-width: min(600px, 85vw);
+    white-space: normal;
+    overflow-wrap: break-word;
   }
   .feedback-error {
     color: var(--color-critical);
