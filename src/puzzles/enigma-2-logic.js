@@ -3,22 +3,16 @@ export const ROUNDS = [
     entities: ['aluno', 'professor', 'disciplina'],
     relationships: ['matricula', 'ministra'],
     missingEntity: 'disciplina',
+    correctRelationship: 'matricula',
   },
 ];
 
-const ENTITY_ANSWERS = { 0: 'disciplina' };
-const RELATIONSHIP_ANSWERS = { 0: 'matricula' };
-
 export function validateEntity(roundIdx, entityName) {
-  return {
-    correct: ENTITY_ANSWERS[roundIdx] === entityName,
-    feedbackLevel: ENTITY_ANSWERS[roundIdx] === entityName ? 2 : 1,
-  };
+  const correct = ROUNDS[roundIdx].missingEntity === entityName;
+  return { correct, feedbackLevel: correct ? 2 : 1 };
 }
 
 export function validateRelationship(roundIdx, relName) {
-  return {
-    correct: RELATIONSHIP_ANSWERS[roundIdx] === relName,
-    feedbackLevel: RELATIONSHIP_ANSWERS[roundIdx] === relName ? 3 : 1,
-  };
+  const correct = ROUNDS[roundIdx].correctRelationship === relName;
+  return { correct, feedbackLevel: correct ? 3 : 1 };
 }

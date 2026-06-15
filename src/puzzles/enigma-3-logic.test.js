@@ -25,4 +25,17 @@ describe('enigma 3 — loop recursivo', () => {
   it('rejects wrong fix', () => {
     expect(validateFix(0, 'if (n === 0) return 0;').correct).toBe(false);
   });
+
+  // Round 1 (binary search)
+  it('validates correct trace output (round 1)', () => {
+    expect(validateTrace(1, 2).correct).toBe(true);
+  });
+
+  it('identifies correct error line (round 1)', () => {
+    expect(identifyErrorLine(1, 6).correct).toBe(true);
+  });
+
+  it('validates correct fix (round 1)', () => {
+    expect(validateFix(1, 'return buscaBinaria(arr, alvo, meio + 1, dir);').correct).toBe(true);
+  });
 });
