@@ -39,4 +39,28 @@ describe('state machine', () => {
     sm.setGameOver();
     expect(sm.getState().phase).toBe(PHASES.GAMEOVER);
   });
+
+  it('throws if completeEnigma is called from boot', () => {
+    const sm = createStateMachine();
+    expect(() => sm.completeEnigma()).toThrow();
+  });
+
+  it('throws if completeEnigma is called from resolution', () => {
+    const sm = createStateMachine();
+    sm.transition(PHASES.ENIGMA1);
+    sm.completeEnigma();
+    sm.completeEnigma();
+    sm.completeEnigma();
+    expect(sm.getState().phase).toBe(PHASES.RESOLUTION);
+    expect(() => sm.completeEnigma()).toThrow();
+  });
+
+  it('notifies listeners on updateTime', () => {
+    const sm = createStateMachine();
+    let called = false;
+    sm.onStateChange(() => { called = true; });
+    sm.transition(PHASES.ENIGMA1);
+    sm.updateTime(10);
+    expect(called).toBe(true);
+  });
 });

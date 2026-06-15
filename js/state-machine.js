@@ -1,3 +1,5 @@
+import { getTimerPhase, PHASE_BPM } from './timer.js';
+
 export const PHASES = Object.freeze({
   BOOT: 'boot',
   ENIGMA1: 'enigma1',
@@ -6,6 +8,8 @@ export const PHASES = Object.freeze({
   RESOLUTION: 'resolution',
   GAMEOVER: 'gameover',
 });
+
+const ENIGMA_ORDER = [PHASES.ENIGMA1, PHASES.ENIGMA2, PHASES.ENIGMA3];
 
 const VALID_TRANSITIONS = {
   [PHASES.BOOT]: [PHASES.ENIGMA1],
@@ -49,19 +53,20 @@ export function createStateMachine() {
     },
 
     completeEnigma: () => {
-      const enigmaOrder = [PHASES.ENIGMA1, PHASES.ENIGMA2, PHASES.ENIGMA3];
-      const currentIdx = enigmaOrder.indexOf(state.phase);
+      if (!ENIGMA_ORDER.includes(state.phase)) {
+        throw new Error(`Cannot complete enigma from phase: ${state.phase}`);
+      }
+      const currentIdx = ENIGMA_ORDER.indexOf(state.phase);
+      const nextPhase = currentIdx < ENIGMA_ORDER.length - 1
+        ? ENIGMA_ORDER[currentIdx + 1]
+        : PHASES.RESOLUTION;
       state = {
         ...state,
         checkpoints: [...state.checkpoints, { phase: state.phase, timestamp: Date.now() }],
         heartRate: Math.max(40, state.heartRate - 20),
         timeRemaining: state.timeRemaining + 180,
+        phase: nextPhase,
       };
-      if (currentIdx < enigmaOrder.length - 1) {
-        state = { ...state, phase: enigmaOrder[currentIdx + 1] };
-      } else {
-        state = { ...state, phase: PHASES.RESOLUTION };
-      }
       listeners.forEach(fn => fn(state));
     },
 
@@ -74,24 +79,19 @@ export function createStateMachine() {
       const baseTotal = 1200;
       const bonus = state.checkpoints.length * 180;
       const total = baseTotal + bonus;
+      const remaining = Math.max(0, total - elapsed);
+      const phase = getTimerPhase(remaining / total);
       state = {
         ...state,
         timeElapsed: elapsed,
-        timeRemaining: Math.max(0, total - elapsed),
-        heartRate: calculateHeartRate(Math.max(0, total - elapsed), total),
+        timeRemaining: remaining,
+        heartRate: PHASE_BPM[phase] || 60,
       };
+      listeners.forEach(fn => fn(state));
     },
 
     onStateChange: (fn) => {
       listeners.push(fn);
     },
   };
-}
-
-function calculateHeartRate(remaining, total) {
-  const ratio = remaining / total;
-  if (ratio > 0.5) return 60;
-  if (ratio > 0.25) return 90;
-  if (ratio > 0.1) return 130;
-  return 180;
 }
