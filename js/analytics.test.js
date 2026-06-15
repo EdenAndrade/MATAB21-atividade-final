@@ -28,8 +28,8 @@ describe('createAnalytics', () => {
     a.record('error', { reason: 'wrong-gate', enigma: 'enigma1' });
     a.record('error', { reason: 'wrong-gate', enigma: 'enigma1' });
     a.record('error', { reason: 'wrong-entity', enigma: 'enigma2' });
-    expect(a.store.errorsByType.wrongGate).toBe(2);
-    expect(a.store.errorsByType.wrongEntity).toBe(1);
+    expect(a.store.errorsByType['wrong-gate']).toBe(2);
+    expect(a.store.errorsByType['wrong-entity']).toBe(1);
   });
 
   it('tracks hints used', () => {

@@ -10,17 +10,13 @@ export function createAnalytics() {
     _phaseName: null,
   };
 
-  function normalizeKey(key) {
-    return key.replace(/-([a-z])/g, (_, c) => c.toUpperCase());
-  }
-
   function record(type, data) {
     const action = { type, ...data, timestamp: data.timestamp ?? Date.now() };
     store.actions.push(action);
 
     switch (type) {
       case 'error': {
-        const reason = normalizeKey(data.reason || 'unknown');
+        const reason = data.reason || 'unknown';
         store.errorsByType[reason] = (store.errorsByType[reason] || 0) + 1;
         break;
       }
