@@ -41,7 +41,7 @@ export function renderEnigma2(container, stateMachine) {
               Qual entidade está faltando?
             </div>
             <div style="display:flex;gap:12px;flex-wrap:wrap;justify-content:center;">
-              ${[...round.entities, round.missingEntity].map(e => `
+              ${[...new Set([...round.entities, round.missingEntity])].map(e => `
                 <button class="entity-btn" data-entity="${e}" style="
                   padding:12px 24px;
                   font-family:var(--font-mono);
@@ -112,7 +112,7 @@ export function renderEnigma2(container, stateMachine) {
               Agora reconecte os relacionamentos. Qual relacionamento liga "aluno" a "${round.missingEntity}"?
             </div>
             <div style="display:flex;gap:12px;flex-wrap:wrap;justify-content:center;">
-              ${['matricula', 'ministra', 'cursa', 'leciona'].map(r => `
+              ${round.relationships.map(r => `
                 <button class="rel-btn" data-rel="${r}" style="
                   padding:12px 24px;
                   font-family:var(--font-mono);
@@ -150,6 +150,7 @@ export function renderEnigma2(container, stateMachine) {
             if (currentRound < ROUNDS.length - 1) {
               currentRound++;
               step = 0;
+              errorsInStep = 0;
               screenTimer.setTimeout(renderStep, 1200);
             } else {
               screenTimer.setTimeout(() => { stateMachine.completeEnigma(); }, 1500);
