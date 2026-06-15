@@ -5,6 +5,12 @@ export const ROUNDS = [
     missingEntity: 'disciplina',
     correctRelationship: 'matricula',
   },
+  {
+    entities: ['aluno', 'disciplina', 'professor', 'departamento'],
+    relationships: ['matricula', 'ministra', 'aloca'],
+    missingEntity: 'historico',
+    correctRelationship: 'matricula',
+  },
 ];
 
 export function validateEntity(roundIdx, entityName) {

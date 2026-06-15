@@ -5,12 +5,13 @@ import { createTimer } from '../dom-utils.js';
 
 export function renderEnigma2(container, stateMachine) {
   const screenTimer = createTimer();
-  const round = ROUNDS[0];
+  let currentRound = 0;
   let step = 0;
   let errorsInStep = 0;
 
   function renderStep() {
     screenTimer.clearAll();
+    const round = ROUNDS[currentRound];
     if (step === 0) {
       container.innerHTML = `
         <div class="screen screen-puzzle" data-active="true">
@@ -19,9 +20,15 @@ export function renderEnigma2(container, stateMachine) {
               <div class="puzzle-title">Mapa de Dados</div>
               <div class="puzzle-subsystem">SUBSISTEMA: SALA DE DADOS</div>
             </div>
+            <div style="font-family:var(--font-mono);font-size:12px;color:var(--color-muted);">
+              Rodada ${currentRound + 1}/${ROUNDS.length}
+            </div>
           </div>
 
           <div class="puzzle-area">
+            <div class="round-indicator" style="font-family:var(--font-mono);font-size:12px;color:var(--color-muted);text-align:center;margin-bottom:12px;">
+              Rodada ${currentRound + 1} de ${ROUNDS.length}
+            </div>
             <div style="font-family:var(--font-mono);font-size:14px;color:var(--color-muted);margin-bottom:16px;">
               O DER está corrompido. Uma entidade foi perdida.
               Entidades visíveis: <span style="color:var(--color-data)">${round.entities.filter(e => e !== round.missingEntity).join(', ')}</span>
@@ -29,6 +36,7 @@ export function renderEnigma2(container, stateMachine) {
             <div style="font-family:var(--font-mono);font-size:13px;color:var(--color-muted);margin-bottom:20px;">
               Relacionamentos órfãos: <span style="color:var(--color-alert)">${round.relationships.join(', ')}</span>
             </div>
+            ${currentRound === 1 ? '<div style="font-family:var(--font-mono);font-size:13px;color:#a855f7;margin-bottom:12px;">DICA: Relacionamentos N:N podem exigir uma entidade associativa.</div>' : ''}
             <div style="font-size:13px;color:var(--color-muted);margin-bottom:16px;font-family:var(--font-mono);">
               Qual entidade está faltando?
             </div>
@@ -62,7 +70,7 @@ export function renderEnigma2(container, stateMachine) {
         btn.addEventListener('click', () => {
           container.querySelectorAll('button').forEach(b => b.style.pointerEvents = 'none');
           stateMachine.recordAttempt('enigma2');
-          const result = validateEntity(0, btn.dataset.entity);
+          const result = validateEntity(currentRound, btn.dataset.entity);
           const feedbackZone = container.querySelector('#feedback-zone');
 
           if (result.correct) {
@@ -88,14 +96,20 @@ export function renderEnigma2(container, stateMachine) {
               <div class="puzzle-title">Mapa de Dados</div>
               <div class="puzzle-subsystem">SUBSISTEMA: SALA DE DADOS</div>
             </div>
+            <div style="font-family:var(--font-mono);font-size:12px;color:var(--color-muted);">
+              Rodada ${currentRound + 1}/${ROUNDS.length}
+            </div>
           </div>
 
           <div class="puzzle-area">
+            <div class="round-indicator" style="font-family:var(--font-mono);font-size:12px;color:var(--color-muted);text-align:center;margin-bottom:12px;">
+              Rodada ${currentRound + 1} de ${ROUNDS.length}
+            </div>
             <div style="font-family:var(--font-mono);font-size:14px;color:var(--color-green);margin-bottom:16px;">
-              Entidade "disciplina" restaurada. ✓
+              Entidade "${round.missingEntity}" restaurada. ✓
             </div>
             <div style="font-size:13px;color:var(--color-muted);margin-bottom:16px;font-family:var(--font-mono);">
-              Agora reconecte os relacionamentos. Qual relacionamento liga "aluno" a "disciplina"?
+              Agora reconecte os relacionamentos. Qual relacionamento liga "aluno" a "${round.missingEntity}"?
             </div>
             <div style="display:flex;gap:12px;flex-wrap:wrap;justify-content:center;">
               ${['matricula', 'ministra', 'cursa', 'leciona'].map(r => `
@@ -127,13 +141,19 @@ export function renderEnigma2(container, stateMachine) {
         btn.addEventListener('click', () => {
           container.querySelectorAll('button').forEach(b => b.style.pointerEvents = 'none');
           stateMachine.recordAttempt('enigma2');
-          const result = validateRelationship(0, btn.dataset.rel);
+          const result = validateRelationship(currentRound, btn.dataset.rel);
           const feedbackZone = container.querySelector('#feedback-zone');
 
           if (result.correct) {
             playCorrectSound();
             showFeedback('enigma2', 'success', 0, feedbackZone);
-            screenTimer.setTimeout(() => { stateMachine.completeEnigma(); }, 1500);
+            if (currentRound < ROUNDS.length - 1) {
+              currentRound++;
+              step = 0;
+              screenTimer.setTimeout(renderStep, 1200);
+            } else {
+              screenTimer.setTimeout(() => { stateMachine.completeEnigma(); }, 1500);
+            }
           } else {
             playErrorSound();
             errorsInStep++;
