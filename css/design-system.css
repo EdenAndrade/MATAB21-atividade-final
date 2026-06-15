@@ -17,7 +17,7 @@
 
   body {
     font-family: var(--font-body, 'Space Grotesk', sans-serif);
-    background-color: #0A0A0B;
+    background-color: var(--color-bg);
     color: #E8E8E8;
     line-height: 1.6;
     min-height: 100vh;
