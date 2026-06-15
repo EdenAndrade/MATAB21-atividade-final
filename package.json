@@ -1,0 +1,19 @@
+{
+  "name": "o-grande-escape-virtual",
+  "private": true,
+  "version": "0.0.1",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "dependencies": {
+    "vite": "^8.0.16"
+  },
+  "devDependencies": {
+    "vitest": "^4.1.9"
+  }
+}

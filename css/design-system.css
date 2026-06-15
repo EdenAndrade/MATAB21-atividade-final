@@ -1,0 +1,112 @@
+/* ==========================================================================
+   Layer: Reset
+   ========================================================================== */
+@layer reset {
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    font-family: var(--font-body, 'Space Grotesk', sans-serif);
+    background-color: #0A0A0B;
+    color: #E8E8E8;
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  img,
+  picture,
+  video,
+  canvas,
+  svg {
+    display: block;
+    max-width: 100%;
+  }
+
+  input,
+  button,
+  textarea,
+  select {
+    font: inherit;
+    color: inherit;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+}
+
+/* ==========================================================================
+   Layer: Design System — Design Tokens
+   ========================================================================== */
+@layer design-system {
+  :root {
+    /* Cores */
+    --color-bg: #0A0A0B;
+    --color-green: #00FF41;
+    --color-alert: #FF6A00;
+    --color-biolum-start: #8B5CF6;
+    --color-biolum-end: #EC4899;
+    --color-data: #00D4FF;
+    --color-critical: #FF0033;
+    --color-text: #E8E8E8;
+    --color-muted: #6B7280;
+    --color-overlay: rgba(0, 0, 0, 0.7);
+
+    /* Glow effects */
+    --glow-green: 0 0 10px rgba(0, 255, 65, 0.3);
+    --glow-biolum: 0 0 15px rgba(139, 92, 246, 0.3);
+    --glow-data: 0 0 10px rgba(0, 212, 255, 0.3);
+    --glow-critical: 0 0 15px rgba(255, 0, 51, 0.4);
+
+    /* Tipografia */
+    --font-display: 'Syne', sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+    --font-body: 'Space Grotesk', sans-serif;
+
+    /* Spacing */
+    --space-xs: 4px;
+    --space-sm: 8px;
+    --space-md: 16px;
+    --space-lg: 24px;
+    --space-xl: 32px;
+    --space-2xl: 48px;
+
+    /* Transitions */
+    --transition-fast: 0.2s ease;
+    --transition-base: 0.3s ease;
+    --transition-slow: 0.5s ease;
+  }
+
+  /* Background texture */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(ellipse at 20% 50%, rgba(139, 92, 246, 0.03) 0%, transparent 50%),
+      radial-gradient(ellipse at 80% 50%, rgba(0, 212, 255, 0.03) 0%, transparent 50%),
+      radial-gradient(ellipse at 50% 20%, rgba(0, 255, 65, 0.02) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  body {
+    position: relative;
+  }
+
+  #app {
+    position: relative;
+    z-index: 1;
+  }
+}
