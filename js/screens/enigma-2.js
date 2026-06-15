@@ -1,13 +1,16 @@
 import { ROUNDS, validateEntity, validateRelationship } from '../../src/puzzles/enigma-2-logic.js';
 import { showFeedback } from '../feedback.js';
 import { playCorrectSound, playErrorSound } from '../audio.js';
+import { createTimer } from '../dom-utils.js';
 
 export function renderEnigma2(container, stateMachine) {
+  const screenTimer = createTimer();
   const round = ROUNDS[0];
   let step = 0;
   let errorsInStep = 0;
 
   function renderStep() {
+    screenTimer.clearAll();
     if (step === 0) {
       container.innerHTML = `
         <div class="screen screen-puzzle" data-active="true">
@@ -30,7 +33,7 @@ export function renderEnigma2(container, stateMachine) {
               Qual entidade está faltando?
             </div>
             <div style="display:flex;gap:12px;flex-wrap:wrap;justify-content:center;">
-              ${['aluno', 'professor', 'disciplina', 'curso'].map(e => `
+              ${[...round.entities, round.missingEntity].map(e => `
                 <button class="entity-btn" data-entity="${e}" style="
                   padding:12px 24px;
                   font-family:var(--font-mono);
@@ -57,6 +60,8 @@ export function renderEnigma2(container, stateMachine) {
 
       container.querySelectorAll('.entity-btn').forEach(btn => {
         btn.addEventListener('click', () => {
+          container.querySelectorAll('button').forEach(b => b.style.pointerEvents = 'none');
+          stateMachine.recordAttempt('enigma2');
           const result = validateEntity(0, btn.dataset.entity);
           const feedbackZone = container.querySelector('#feedback-zone');
 
@@ -65,7 +70,7 @@ export function renderEnigma2(container, stateMachine) {
             showFeedback('enigma2', 'success', 0, feedbackZone);
             errorsInStep = 0;
             step = 1;
-            setTimeout(renderStep, 1200);
+            screenTimer.setTimeout(renderStep, 1200);
           } else {
             playErrorSound();
             errorsInStep++;
@@ -119,13 +124,15 @@ export function renderEnigma2(container, stateMachine) {
 
       container.querySelectorAll('.rel-btn').forEach(btn => {
         btn.addEventListener('click', () => {
+          container.querySelectorAll('button').forEach(b => b.style.pointerEvents = 'none');
+          stateMachine.recordAttempt('enigma2');
           const result = validateRelationship(0, btn.dataset.rel);
           const feedbackZone = container.querySelector('#feedback-zone');
 
           if (result.correct) {
             playCorrectSound();
             showFeedback('enigma2', 'success', 0, feedbackZone);
-            setTimeout(() => { stateMachine.completeEnigma(); }, 1500);
+            screenTimer.setTimeout(() => { stateMachine.completeEnigma(); }, 1500);
           } else {
             playErrorSound();
             errorsInStep++;

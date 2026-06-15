@@ -1,4 +1,5 @@
 import { playHealSound, playFlatline } from '../audio.js';
+import { createTimer } from '../dom-utils.js';
 
 export function renderResolution(container, state) {
   const totalTime = state.timeElapsed;
@@ -28,6 +29,7 @@ export function renderResolution(container, state) {
 }
 
 export function renderGameOver(container, stateMachine) {
+  const timer = createTimer();
   playFlatline();
 
   container.innerHTML = `
@@ -41,7 +43,8 @@ export function renderGameOver(container, stateMachine) {
     </div>
   `;
 
-  document.getElementById('restart-btn')?.addEventListener('click', () => {
+  container.querySelector('#restart-btn')?.addEventListener('click', () => {
+    timer.clearAll();
     window.location.reload();
   });
 }

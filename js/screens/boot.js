@@ -1,7 +1,10 @@
 import { PHASES } from '../state-machine.js';
 import { playBootSequence } from '../audio.js';
+import { createTimer } from '../dom-utils.js';
 
 export function renderBoot(container, stateMachine) {
+  const timer = createTimer();
+
   container.innerHTML = `
     <div class="screen screen-boot" data-active="true">
       <div class="boot-terminal">
@@ -18,7 +21,7 @@ export function renderBoot(container, stateMachine) {
 
   playBootSequence();
 
-  setTimeout(() => {
+  timer.setTimeout(() => {
     stateMachine.transition(PHASES.ENIGMA1);
   }, 5000);
 }

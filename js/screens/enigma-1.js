@@ -1,14 +1,17 @@
 import { ROUNDS, validateGate } from '../../src/puzzles/enigma-1-logic.js';
 import { showFeedback } from '../feedback.js';
 import { playCorrectSound, playErrorSound } from '../audio.js';
+import { createTimer } from '../dom-utils.js';
 
 export function renderEnigma1(container, stateMachine) {
+  const screenTimer = createTimer();
   let currentRound = 0;
   const totalRounds = ROUNDS.length;
   let errorsInStep = 0;
   let progress = 0;
 
   function renderRound() {
+    screenTimer.clearAll();
     const round = ROUNDS[currentRound];
     container.innerHTML = `
       <div class="screen screen-puzzle" data-active="true">
@@ -64,6 +67,7 @@ export function renderEnigma1(container, stateMachine) {
     container.querySelectorAll('.gate-btn').forEach(btn => {
       btn.addEventListener('click', () => {
         const selected = btn.dataset.gate;
+        container.querySelectorAll('button').forEach(b => b.style.pointerEvents = 'none');
         stateMachine.recordAttempt('enigma1');
         const result = validateGate(round, selected);
         const feedbackZone = container.querySelector('#feedback-zone');
@@ -77,9 +81,9 @@ export function renderEnigma1(container, stateMachine) {
           errorsInStep = 0;
 
           if (currentRound < totalRounds - 1) {
-            setTimeout(() => { currentRound++; renderRound(); }, 1200);
+            screenTimer.setTimeout(() => { currentRound++; renderRound(); }, 1200);
           } else {
-            setTimeout(() => { stateMachine.completeEnigma(); }, 1500);
+            screenTimer.setTimeout(() => { stateMachine.completeEnigma(); }, 1500);
           }
         } else {
           playErrorSound();
@@ -88,7 +92,7 @@ export function renderEnigma1(container, stateMachine) {
           showFeedback('enigma1', 'error', errIdx, feedbackZone);
           btn.style.cssText = `padding:12px 24px;font-family:var(--font-mono);font-size:18px;font-weight:700;color:var(--color-critical);background:rgba(255,0,51,0.1);border:1px solid var(--color-critical);border-radius:4px;animation:shake 0.3s ease;`;
 
-          setTimeout(() => { renderRound(); }, 1000);
+          screenTimer.setTimeout(() => { renderRound(); }, 1000);
         }
       });
     });

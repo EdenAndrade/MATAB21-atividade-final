@@ -1,13 +1,16 @@
 import { ROUNDS, validateTrace, identifyErrorLine, validateFix } from '../../src/puzzles/enigma-3-logic.js';
 import { showFeedback } from '../feedback.js';
 import { playCorrectSound, playErrorSound, playHealSound } from '../audio.js';
+import { createTimer } from '../dom-utils.js';
 
 export function renderEnigma3(container, stateMachine) {
+  const screenTimer = createTimer();
   let currentRound = 0;
   let step = 0;
   let errorsInStep = 0;
 
   function renderStep() {
+    screenTimer.clearAll();
     const round = ROUNDS[currentRound];
 
     if (step === 0) {
@@ -52,6 +55,7 @@ ${round.code.map((line, i) => `${String(i + 1).padStart(2, '0')}  ${line}`).join
 
       container.querySelectorAll('.trace-btn').forEach(btn => {
         btn.addEventListener('click', () => {
+          container.querySelectorAll('button').forEach(b => b.style.pointerEvents = 'none');
           stateMachine.recordAttempt('enigma3');
           const result = validateTrace(currentRound, parseInt(btn.dataset.value));
           const feedbackZone = container.querySelector('#feedback-zone');
@@ -61,7 +65,7 @@ ${round.code.map((line, i) => `${String(i + 1).padStart(2, '0')}  ${line}`).join
             showFeedback('enigma3', 'success', 0, feedbackZone);
             errorsInStep = 0;
             step = 1;
-            setTimeout(renderStep, 1200);
+            screenTimer.setTimeout(renderStep, 1200);
           } else {
             playErrorSound();
             errorsInStep++;
@@ -96,6 +100,7 @@ ${round.code.map((line, i) => `<span class="code-line" data-line="${i + 1}" styl
         el.addEventListener('mouseenter', () => { el.style.background = 'rgba(255,0,51,0.1)'; });
         el.addEventListener('mouseleave', () => { el.style.background = 'transparent'; });
         el.addEventListener('click', () => {
+          container.querySelectorAll('span').forEach(s => s.style.pointerEvents = 'none');
           const result = identifyErrorLine(currentRound, parseInt(el.dataset.line));
           const feedbackZone = container.querySelector('#feedback-zone');
 
@@ -105,13 +110,13 @@ ${round.code.map((line, i) => `<span class="code-line" data-line="${i + 1}" styl
             el.style.background = 'rgba(0,255,65,0.15)';
             errorsInStep = 0;
             step = 2;
-            setTimeout(renderStep, 1200);
+            screenTimer.setTimeout(renderStep, 1200);
           } else {
             playErrorSound();
             errorsInStep++;
             showFeedback('enigma3', 'error', Math.min(errorsInStep - 1, 3), feedbackZone);
             el.style.background = 'rgba(255,0,51,0.15)';
-            setTimeout(() => { el.style.background = 'transparent'; }, 800);
+            screenTimer.setTimeout(() => { el.style.background = 'transparent'; }, 800);
           }
         });
       });
@@ -156,6 +161,7 @@ ${round.code.map((line, i) => `<span class="code-line" data-line="${i + 1}" styl
 
       container.querySelectorAll('.fix-btn').forEach(btn => {
         btn.addEventListener('click', () => {
+          container.querySelectorAll('button').forEach(b => b.style.pointerEvents = 'none');
           const result = validateFix(currentRound, btn.dataset.fix);
           const feedbackZone = container.querySelector('#feedback-zone');
 
@@ -167,9 +173,9 @@ ${round.code.map((line, i) => `<span class="code-line" data-line="${i + 1}" styl
               currentRound++;
               step = 0;
               errorsInStep = 0;
-              setTimeout(renderStep, 1500);
+              screenTimer.setTimeout(renderStep, 1500);
             } else {
-              setTimeout(() => { stateMachine.completeEnigma(); }, 2000);
+              screenTimer.setTimeout(() => { stateMachine.completeEnigma(); }, 2000);
             }
           } else {
             playErrorSound();
