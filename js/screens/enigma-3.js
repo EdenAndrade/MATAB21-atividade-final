@@ -70,6 +70,7 @@ ${round.code.map((line, i) => `${String(i + 1).padStart(2, '0')}  ${line}`).join
             playErrorSound();
             errorsInStep++;
             showFeedback('enigma3', 'error', Math.min(errorsInStep - 1, 3), feedbackZone);
+            container.querySelectorAll('button').forEach(b => b.style.pointerEvents = '');
           }
         });
       });
