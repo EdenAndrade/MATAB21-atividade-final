@@ -11,7 +11,7 @@ Atividade Final: **O Grande Escape Virtual** — um ecossistema digital gamifica
 - **Disciplina:** MATB21 - Ambientes Interativos de Aprendizagem
 - **Tema:** EdTech e Gamificação na Educação
 - **Prazo final:** 22.06.2026 ⚠️
-**Stack:** Vite + Vanilla JS (ES modules) + CSS 2026 (@layer, custom properties, Container Queries) + Vitest
+- **Stack:** Vite + Vanilla JS (ES modules) + CSS 2026 (@layer, custom properties) + Vitest
 - **Público-alvo:** Estudantes de Ensino Superior em Cursos de Computação
 - **Formato:** Grupos interdisciplinares (CC, SI, LC, BI-C&T)
 
@@ -19,27 +19,21 @@ Atividade Final: **O Grande Escape Virtual** — um ecossistema digital gamifica
 
 - **Fase:** Implementação completa — jogo funcional com 5 fases (Boot, 3 Enigmas, Resolução)
 - **Tema do jogo:** O Último Servidor Orgânico — bio-servidor degradando, reparo por subsistema
-- **Stack:** Vite + Vanilla JS (ES modules) + CSS 2026 (@layer, custom properties) + Vitest
 - **Deadline:** 22.06.2026
 
 ## Entregáveis Obrigatórios
 
-1. **Link do Jogo** — Plataforma interativa com exatamente 3 enigmas sequenciais sobre Lógica de Programação. Pode usar Genially, Google Forms com validação, ThingLink, solução web própria, etc.
+1. **Link do Jogo** — Solução web própria (Vite + Vanilla JS), deploy via GitHub Pages. Jogo funcional em `/dist/`.
 2. **Vídeo 1 — Teaser e Instruções** (máx. 2 min) — Introdução narrativa + como jogar
 3. **Vídeo 2 — Consolidação Pedagógica** (máx. 5 min) — Resolução técnica dos enigmas
 
-## Estrutura dos Enigmas (Curva de Dificuldade Crescente)
+## Enigmas Implementados
 
-- **Enigma 1:** Nível Médio — Aquecimento e engajamento
-- **Enigma 2:** Nível Médio-Alto — Exige cruzamento de informações
-- **Enigma 3:** Nível Difícil — O grande desafio final
-
-### Sugestões de Conteúdo por Perfil
-
-| Nível | CC | SI | LC | BI-C&T |
-|-------|----|----|----|--------|
-| Médio | Teste de Mesa (laço for/while + filtro condicional) | Fluxograma BPMN com etapa em branco | 4 pilares do Pensamento Computacional | Cifra de César clássica |
-| Difícil | Portas Lógicas (NAND/NOR/XOR) ou Recursão | DER com erro crítico oculto | Design Universal e Acessibilidade Digital | Viés algorítmico em IA / privacidade de dados |
+| Enigma | Nível | Mecânica | Conteúdo | Papel |
+|--------|-------|----------|----------|-------|
+| 1 — Circuitos Lógicos | Médio | Arrastar porta correta para completar circuito (AND/OR/NAND) | Tabelas verdade, portas lógicas | CC |
+| 2 — Mapa de Dados Corrompido | Médio-Alto | Identificar entidade ausente + reconectar relacionamentos | DER, chaves estrangeiras, cardinalidade | SI |
+| 3 — Loop Recursivo | Difícil | Rastrear execução → identificar linha com erro → escolher correção | Recursão, caso base, stack trace | CC |
 
 ## Critérios de Avaliação (Pesos Iguais)
 
@@ -67,7 +61,14 @@ npm run build    # Build de produção (saída em dist/)
 npm run preview  # Servir build de produção localmente
 npm test         # Rodar todos os testes (Vitest)
 npm run test:watch  # Rodar testes em modo watch
+npx vitest run src/puzzles/enigma-1-logic.test.js  # Testar um arquivo específico
 ```
+
+## Deploy
+
+- Push para `main` → GitHub Actions executa `.github/workflows/deploy.yml` → deploy automático no GitHub Pages
+- Build local: `npm run build` (saída em `dist/`)
+- Preview local do build: `npm run preview`
 
 ## Arquitetura do Código
 
