@@ -6,7 +6,9 @@ export function createNeuralParticles(container) {
   container.appendChild(canvas);
 
   const ctx = canvas.getContext('2d');
-  const particles = Array.from({ length: 50 }, () => ({
+  const isMobile = window.matchMedia('(max-width: 768px)').matches;
+  const particleCount = isMobile ? 15 : 50;
+  const particles = Array.from({ length: particleCount }, () => ({
     x: Math.random() * canvas.width,
     y: Math.random() * canvas.height,
     vx: (Math.random() - 0.5) * 0.3,
