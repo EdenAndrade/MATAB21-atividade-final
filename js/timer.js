@@ -33,8 +33,12 @@ export function renderTimerBar(container, ratio, phase) {
 
   const bar = document.createElement('div');
   bar.className = 'timer-bar';
+  bar.setAttribute('role', 'progressbar');
+  bar.setAttribute('aria-valuemin', '0');
+  bar.setAttribute('aria-valuemax', '100');
   const color = getHeartColor(phase);
   const pct = Math.max(5, ratio * 100);
+  bar.setAttribute('aria-valuenow', String(Math.round(pct)));
   bar.style.cssText = `
     position: fixed; right: 0; top: 0; width: 8px; height: 100%;
     background: linear-gradient(to top, ${color} ${pct}%, rgba(0,0,0,0.8) ${pct}%);

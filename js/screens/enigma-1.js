@@ -14,7 +14,7 @@ export function renderEnigma1(container, stateMachine, analytics) {
     screenTimer.clearAll();
     const round = ROUNDS[currentRound];
     container.innerHTML = `
-      <div class="screen screen-puzzle" data-active="true">
+      <div class="screen screen-puzzle" data-active="true" role="region" aria-label="Enigma 1: Circuitos Lógicos">
         <div class="puzzle-header">
           <div>
             <div class="puzzle-title">Circuito Lógico</div>

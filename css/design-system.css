@@ -62,7 +62,7 @@
     --color-data: #00D4FF;
     --color-critical: #FF0033;
     --color-text: #E8E8E8;
-    --color-muted: #6B7280;
+    --color-muted: #9CA3AF;
     --color-overlay: rgba(0, 0, 0, 0.7);
 
     /* Glow effects */
@@ -113,5 +113,31 @@
     width: 100%;
     height: 100vh;
     overflow: hidden;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    :root {
+      --reduce-motion: true;
+    }
+  }
+
+  @media (prefers-contrast: more) {
+    :root {
+      --color-text: #FFFFFF;
+      --color-muted: #D1D5DB;
+      --glow-green: 0 0 0 transparent;
+      --glow-biolum: 0 0 0 transparent;
+      --glow-data: 0 0 0 transparent;
+      --glow-critical: 0 0 0 transparent;
+    }
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-data);
+    outline-offset: 2px;
+  }
+
+  button:focus-visible {
+    box-shadow: 0 0 0 2px var(--color-data), 0 0 12px rgba(0, 212, 255, 0.3);
   }
 }

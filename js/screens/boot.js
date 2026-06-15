@@ -6,7 +6,7 @@ export function renderBoot(container, stateMachine) {
   const timer = createTimer();
 
   container.innerHTML = `
-    <div class="screen screen-boot" data-active="true">
+    <div class="screen screen-boot" data-active="true" role="region" aria-label="Inicialização do bio-servidor">
       <div class="boot-terminal">
         <div class="boot-line">SISTEMA CORROMPIDO.</div>
         <div class="boot-line">INICIANDO PROTOCOLO DE REPARO...</div>

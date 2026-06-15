@@ -228,4 +228,22 @@
   .timer-bar {
     transition: background 0.5s ease;
   }
+
+  @media (prefers-reduced-motion: reduce) {
+    .boot-line {
+      animation: none !important;
+      width: 100% !important;
+      border-right: none !important;
+    }
+    .boot-progress-fill {
+      animation: none !important;
+      width: 100% !important;
+    }
+    .scanlines-overlay {
+      display: none !important;
+    }
+    .timer-bar {
+      transition: none !important;
+    }
+  }
 }

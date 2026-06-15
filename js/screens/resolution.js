@@ -75,7 +75,7 @@ export function renderResolution(container, state, analytics) {
   const totalAttempts = state.attempts.enigma1 + state.attempts.enigma2 + state.attempts.enigma3;
 
   container.innerHTML = `
-    <div class="screen screen-resolution" data-active="true">
+    <div class="screen screen-resolution" data-active="true" role="region" aria-label="Resolução do bio-servidor">
       <div class="resolution-title">O CONHECIMENTO FOI PRESERVADO</div>
       <div class="resolution-subtitle">Bio-servidor reiniciado com sucesso.</div>
       <div style="margin-top:32px;font-family:var(--font-mono);font-size:14px;color:var(--color-muted);line-height:2;">
@@ -117,7 +117,7 @@ export function renderGameOver(container, stateMachine) {
   playFlatline();
 
   container.innerHTML = `
-    <div class="screen screen-gameover" data-active="true">
+    <div class="screen screen-gameover" data-active="true" role="region" aria-label="Game Over: Conexão Perdida">
       <div class="gameover-title">CONEXÃO PERDIDA</div>
       <div class="gameover-subtitle">SISTEMA IRRECUPERÁVEL.</div>
       <div style="margin-top:16px;font-family:var(--font-mono);font-size:12px;color:var(--color-muted);">

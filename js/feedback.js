@@ -65,6 +65,8 @@ export function showFeedback(enigmaId, type, stepIndex, container) {
   const el = document.createElement('div');
   el.className = `feedback-text feedback-${type}`;
   el.textContent = msg;
+  el.setAttribute('aria-live', 'polite');
+  el.setAttribute('role', 'status');
   container.appendChild(el);
 
   if (type === 'error' || type === 'partial') {

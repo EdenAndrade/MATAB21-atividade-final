@@ -15,7 +15,7 @@ export function renderEnigma3(container, stateMachine, analytics) {
 
     if (step === 0) {
       container.innerHTML = `
-        <div class="screen screen-puzzle" data-active="true">
+        <div class="screen screen-puzzle" data-active="true" role="region" aria-label="Enigma 3: Loop Recursivo">
           <div class="puzzle-header">
             <div>
               <div class="puzzle-title">Loop Recursivo</div>
@@ -96,7 +96,7 @@ ${round.code.map((line, i) => `${String(i + 1).padStart(2, '0')}  ${line}`).join
       });
     } else if (step === 1) {
       container.innerHTML = `
-        <div class="screen screen-puzzle" data-active="true">
+        <div class="screen screen-puzzle" data-active="true" role="region" aria-label="Enigma 3: Loop Recursivo">
           <div class="puzzle-header">
             <div>
               <div class="puzzle-title">Loop Recursivo</div>
@@ -162,7 +162,7 @@ ${round.code.map((line, i) => `<span class="code-line" data-line="${i + 1}" styl
       });
     } else if (step === 2) {
       container.innerHTML = `
-        <div class="screen screen-puzzle" data-active="true">
+        <div class="screen screen-puzzle" data-active="true" role="region" aria-label="Enigma 3: Loop Recursivo">
           <div class="puzzle-header">
             <div>
               <div class="puzzle-title">Loop Recursivo</div>

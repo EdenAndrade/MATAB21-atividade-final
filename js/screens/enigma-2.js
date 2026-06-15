@@ -14,7 +14,7 @@ export function renderEnigma2(container, stateMachine, analytics) {
     const round = ROUNDS[currentRound];
     if (step === 0) {
       container.innerHTML = `
-        <div class="screen screen-puzzle" data-active="true">
+        <div class="screen screen-puzzle" data-active="true" role="region" aria-label="Enigma 2: Mapa de Dados Corrompido">
           <div class="puzzle-header">
             <div>
               <div class="puzzle-title">Mapa de Dados</div>
@@ -110,7 +110,7 @@ export function renderEnigma2(container, stateMachine, analytics) {
       });
     } else if (step === 1) {
       container.innerHTML = `
-        <div class="screen screen-puzzle" data-active="true">
+        <div class="screen screen-puzzle" data-active="true" role="region" aria-label="Enigma 2: Mapa de Dados Corrompido">
           <div class="puzzle-header">
             <div>
               <div class="puzzle-title">Mapa de Dados</div>
