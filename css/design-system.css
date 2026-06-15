@@ -115,19 +115,32 @@
     overflow: hidden;
   }
 
-  /* Custom scrollbar — temas escuro */
+  /* Scrollbar customizada — Firefox */
+  .screen {
+    scrollbar-width: thin;
+    scrollbar-color: #8B5CF6 rgba(0, 0, 0, 0.3);
+  }
+
+  /* Scrollbar customizada — Chrome / Edge / Safari */
   .screen::-webkit-scrollbar {
-    width: 6px;
+    width: 8px;
   }
   .screen::-webkit-scrollbar-track {
-    background: transparent;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 4px;
+    margin: 4px 0;
   }
   .screen::-webkit-scrollbar-thumb {
-    background: rgba(139, 92, 246, 0.3);
-    border-radius: 3px;
+    background: linear-gradient(180deg, #8B5CF6, #00D4FF);
+    border-radius: 4px;
+    border: 2px solid transparent;
+    background-clip: content-box;
+    min-height: 40px;
   }
   .screen::-webkit-scrollbar-thumb:hover {
-    background: rgba(139, 92, 246, 0.5);
+    background: linear-gradient(180deg, #A78BFA, #22D3EE);
+    border: 2px solid transparent;
+    background-clip: content-box;
   }
 
   @media (prefers-reduced-motion: reduce) {
