@@ -11,6 +11,9 @@ export function renderBoot(container, stateMachine) {
         <div class="boot-line">SISTEMA CORROMPIDO.</div>
         <div class="boot-line">INICIANDO PROTOCOLO DE REPARO...</div>
         <div class="boot-line">VERIFICANDO INTEGRIDADE DOS MÓDULOS...</div>
+        <div class="boot-line" style="color:var(--color-biolum-start);">AVISO: BIO-SERVIDOR DEGRADANDO EM 20 MINUTOS.</div>
+        <div class="boot-line" style="color:var(--color-biolum-start);">CADA SUBSISTEMA REPARADO CONCEDE +3 MIN DE ESTABILIDADE.</div>
+        <div class="boot-line" style="color:var(--color-data);">USE O INDICADOR DE BATIMENTO CARDÍACO NA LATERAL PARA MONITORAR.</div>
       </div>
       <div class="boot-progress">
         <div class="boot-progress-fill"></div>
