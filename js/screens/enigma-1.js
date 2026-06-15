@@ -20,8 +20,16 @@ export function renderEnigma1(container, stateMachine, analytics) {
             <div class="puzzle-title">Circuito Lógico</div>
             <div class="puzzle-subsystem">SUBSISTEMA: SALA DE CIRCUITOS</div>
           </div>
-          <div style="font-family:var(--font-mono);font-size:12px;color:var(--color-muted);">
-            Rodada ${currentRound + 1}/${totalRounds}
+          <div style="display:flex;align-items:center;gap:8px;">
+            <div style="font-family:var(--font-mono);font-size:12px;color:var(--color-muted);">
+              Rodada ${currentRound + 1}/${totalRounds}
+            </div>
+            <div style="position:relative;">
+              <button class="hint-btn" aria-label="Obter dica" style="width:32px;height:32px;border:1px solid rgba(139,92,246,0.4);border-radius:50%;background:rgba(139,92,246,0.1);color:#a855f7;font-family:var(--font-display);font-size:16px;font-weight:700;cursor:pointer;transition:all 0.3s ease;">?</button>
+              <div class="hint-bubble" style="display:none;position:absolute;top:40px;right:0;width:280px;padding:12px;font-size:12px;color:#a855f7;background:rgba(0,0,0,0.9);border:1px solid rgba(139,92,246,0.3);border-radius:4px;z-index:100;font-family:var(--font-mono);line-height:1.6;">
+                DICA: Compare bit a bit. AND: 1&amp;1=1, OR: 0|1=1, NAND: inverte AND.
+              </div>
+            </div>
           </div>
         </div>
 
@@ -63,6 +71,16 @@ export function renderEnigma1(container, stateMachine, analytics) {
         <div class="feedback-zone" id="feedback-zone"></div>
       </div>
     `;
+
+    const hintBtn = container.querySelector('.hint-btn');
+    const hintBubble = container.querySelector('.hint-bubble');
+    if (hintBtn && analytics) {
+      hintBtn.addEventListener('click', () => {
+        const isVisible = hintBubble.style.display === 'block';
+        hintBubble.style.display = isVisible ? 'none' : 'block';
+        analytics.record('hint', { enigma: 'enigma1' });
+      });
+    }
 
     container.querySelectorAll('.gate-btn').forEach(btn => {
       btn.addEventListener('click', () => {

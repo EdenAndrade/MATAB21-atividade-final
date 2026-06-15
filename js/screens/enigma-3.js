@@ -21,8 +21,16 @@ export function renderEnigma3(container, stateMachine, analytics) {
               <div class="puzzle-title">Loop Recursivo</div>
               <div class="puzzle-subsystem">SUBSISTEMA: MÓDULO COGNITIVO CENTRAL</div>
             </div>
-            <div style="font-family:var(--font-mono);font-size:12px;color:var(--color-muted);">
-              Rodada ${currentRound + 1}/${ROUNDS.length}
+            <div style="display:flex;align-items:center;gap:8px;">
+              <div style="font-family:var(--font-mono);font-size:12px;color:var(--color-muted);">
+                Rodada ${currentRound + 1}/${ROUNDS.length}
+              </div>
+              <div style="position:relative;">
+                <button class="hint-btn" aria-label="Obter dica" style="width:32px;height:32px;border:1px solid rgba(139,92,246,0.4);border-radius:50%;background:rgba(139,92,246,0.1);color:#a855f7;font-family:var(--font-display);font-size:16px;font-weight:700;cursor:pointer;transition:all 0.3s ease;">?</button>
+                <div class="hint-bubble" style="display:none;position:absolute;top:40px;right:0;width:280px;padding:12px;font-size:12px;color:#a855f7;background:rgba(0,0,0,0.9);border:1px solid rgba(139,92,246,0.3);border-radius:4px;z-index:100;font-family:var(--font-mono);line-height:1.6;">
+                  DICA: Simule a execução manualmente. Rastreie o valor de cada variável a cada iteração.
+                </div>
+              </div>
             </div>
           </div>
 
@@ -52,6 +60,16 @@ ${round.code.map((line, i) => `${String(i + 1).padStart(2, '0')}  ${line}`).join
           <div class="feedback-zone" id="feedback-zone"></div>
         </div>
       `;
+
+      const hintBtn = container.querySelector('.hint-btn');
+      const hintBubble = container.querySelector('.hint-bubble');
+      if (hintBtn && analytics) {
+        hintBtn.addEventListener('click', () => {
+          const isVisible = hintBubble.style.display === 'block';
+          hintBubble.style.display = isVisible ? 'none' : 'block';
+          analytics.record('hint', { enigma: 'enigma3' });
+        });
+      }
 
       container.querySelectorAll('.trace-btn').forEach(btn => {
         btn.addEventListener('click', () => {
@@ -84,6 +102,12 @@ ${round.code.map((line, i) => `${String(i + 1).padStart(2, '0')}  ${line}`).join
               <div class="puzzle-title">Loop Recursivo</div>
               <div class="puzzle-subsystem">SUBSISTEMA: MÓDULO COGNITIVO CENTRAL</div>
             </div>
+            <div style="position:relative;">
+              <button class="hint-btn" aria-label="Obter dica" style="width:32px;height:32px;border:1px solid rgba(139,92,246,0.4);border-radius:50%;background:rgba(139,92,246,0.1);color:#a855f7;font-family:var(--font-display);font-size:16px;font-weight:700;cursor:pointer;transition:all 0.3s ease;">?</button>
+              <div class="hint-bubble" style="display:none;position:absolute;top:40px;right:0;width:280px;padding:12px;font-size:12px;color:#a855f7;background:rgba(0,0,0,0.9);border:1px solid rgba(139,92,246,0.3);border-radius:4px;z-index:100;font-family:var(--font-mono);line-height:1.6;">
+                DICA: Simule a execução manualmente. Rastreie o valor de cada variável a cada iteração.
+              </div>
+            </div>
           </div>
 
           <div class="puzzle-area" style="align-items:stretch;">
@@ -98,6 +122,16 @@ ${round.code.map((line, i) => `<span class="code-line" data-line="${i + 1}" styl
           <div class="feedback-zone" id="feedback-zone"></div>
         </div>
       `;
+
+      const hintBtn = container.querySelector('.hint-btn');
+      const hintBubble = container.querySelector('.hint-bubble');
+      if (hintBtn && analytics) {
+        hintBtn.addEventListener('click', () => {
+          const isVisible = hintBubble.style.display === 'block';
+          hintBubble.style.display = isVisible ? 'none' : 'block';
+          analytics.record('hint', { enigma: 'enigma3' });
+        });
+      }
 
       container.querySelectorAll('.code-line').forEach(el => {
         el.addEventListener('mouseenter', () => { el.style.background = 'rgba(255,0,51,0.1)'; });
@@ -134,6 +168,12 @@ ${round.code.map((line, i) => `<span class="code-line" data-line="${i + 1}" styl
               <div class="puzzle-title">Loop Recursivo</div>
               <div class="puzzle-subsystem">SUBSISTEMA: MÓDULO COGNITIVO CENTRAL</div>
             </div>
+            <div style="position:relative;">
+              <button class="hint-btn" aria-label="Obter dica" style="width:32px;height:32px;border:1px solid rgba(139,92,246,0.4);border-radius:50%;background:rgba(139,92,246,0.1);color:#a855f7;font-family:var(--font-display);font-size:16px;font-weight:700;cursor:pointer;transition:all 0.3s ease;">?</button>
+              <div class="hint-bubble" style="display:none;position:absolute;top:40px;right:0;width:280px;padding:12px;font-size:12px;color:#a855f7;background:rgba(0,0,0,0.9);border:1px solid rgba(139,92,246,0.3);border-radius:4px;z-index:100;font-family:var(--font-mono);line-height:1.6;">
+                DICA: Simule a execução manualmente. Rastreie o valor de cada variável a cada iteração.
+              </div>
+            </div>
           </div>
 
           <div class="puzzle-area">
@@ -164,6 +204,16 @@ ${round.code.map((line, i) => `<span class="code-line" data-line="${i + 1}" styl
           <div class="feedback-zone" id="feedback-zone"></div>
         </div>
       `;
+
+      const hintBtn = container.querySelector('.hint-btn');
+      const hintBubble = container.querySelector('.hint-bubble');
+      if (hintBtn && analytics) {
+        hintBtn.addEventListener('click', () => {
+          const isVisible = hintBubble.style.display === 'block';
+          hintBubble.style.display = isVisible ? 'none' : 'block';
+          analytics.record('hint', { enigma: 'enigma3' });
+        });
+      }
 
       container.querySelectorAll('.fix-btn').forEach(btn => {
         btn.addEventListener('click', () => {

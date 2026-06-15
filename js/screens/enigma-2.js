@@ -20,8 +20,16 @@ export function renderEnigma2(container, stateMachine, analytics) {
               <div class="puzzle-title">Mapa de Dados</div>
               <div class="puzzle-subsystem">SUBSISTEMA: SALA DE DADOS</div>
             </div>
-            <div style="font-family:var(--font-mono);font-size:12px;color:var(--color-muted);">
-              Rodada ${currentRound + 1}/${ROUNDS.length}
+            <div style="display:flex;align-items:center;gap:8px;">
+              <div style="font-family:var(--font-mono);font-size:12px;color:var(--color-muted);">
+                Rodada ${currentRound + 1}/${ROUNDS.length}
+              </div>
+              <div style="position:relative;">
+                <button class="hint-btn" aria-label="Obter dica" style="width:32px;height:32px;border:1px solid rgba(139,92,246,0.4);border-radius:50%;background:rgba(139,92,246,0.1);color:#a855f7;font-family:var(--font-display);font-size:16px;font-weight:700;cursor:pointer;transition:all 0.3s ease;">?</button>
+                <div class="hint-bubble" style="display:none;position:absolute;top:40px;right:0;width:280px;padding:12px;font-size:12px;color:#a855f7;background:rgba(0,0,0,0.9);border:1px solid rgba(139,92,246,0.3);border-radius:4px;z-index:100;font-family:var(--font-mono);line-height:1.6;">
+                  DICA: Relacionamentos N:N podem exigir uma entidade associativa.
+                </div>
+              </div>
             </div>
           </div>
 
@@ -66,6 +74,16 @@ export function renderEnigma2(container, stateMachine, analytics) {
         </div>
       `;
 
+      const hintBtn = container.querySelector('.hint-btn');
+      const hintBubble = container.querySelector('.hint-bubble');
+      if (hintBtn && analytics) {
+        hintBtn.addEventListener('click', () => {
+          const isVisible = hintBubble.style.display === 'block';
+          hintBubble.style.display = isVisible ? 'none' : 'block';
+          analytics.record('hint', { enigma: 'enigma2' });
+        });
+      }
+
       container.querySelectorAll('.entity-btn').forEach(btn => {
         btn.addEventListener('click', () => {
           container.querySelectorAll('button').forEach(b => b.style.pointerEvents = 'none');
@@ -98,8 +116,16 @@ export function renderEnigma2(container, stateMachine, analytics) {
               <div class="puzzle-title">Mapa de Dados</div>
               <div class="puzzle-subsystem">SUBSISTEMA: SALA DE DADOS</div>
             </div>
-            <div style="font-family:var(--font-mono);font-size:12px;color:var(--color-muted);">
-              Rodada ${currentRound + 1}/${ROUNDS.length}
+            <div style="display:flex;align-items:center;gap:8px;">
+              <div style="font-family:var(--font-mono);font-size:12px;color:var(--color-muted);">
+                Rodada ${currentRound + 1}/${ROUNDS.length}
+              </div>
+              <div style="position:relative;">
+                <button class="hint-btn" aria-label="Obter dica" style="width:32px;height:32px;border:1px solid rgba(139,92,246,0.4);border-radius:50%;background:rgba(139,92,246,0.1);color:#a855f7;font-family:var(--font-display);font-size:16px;font-weight:700;cursor:pointer;transition:all 0.3s ease;">?</button>
+                <div class="hint-bubble" style="display:none;position:absolute;top:40px;right:0;width:280px;padding:12px;font-size:12px;color:#a855f7;background:rgba(0,0,0,0.9);border:1px solid rgba(139,92,246,0.3);border-radius:4px;z-index:100;font-family:var(--font-mono);line-height:1.6;">
+                  DICA: Relacionamentos N:N podem exigir uma entidade associativa.
+                </div>
+              </div>
             </div>
           </div>
 
@@ -138,6 +164,16 @@ export function renderEnigma2(container, stateMachine, analytics) {
           </div>
         </div>
       `;
+
+      const hintBtn = container.querySelector('.hint-btn');
+      const hintBubble = container.querySelector('.hint-bubble');
+      if (hintBtn && analytics) {
+        hintBtn.addEventListener('click', () => {
+          const isVisible = hintBubble.style.display === 'block';
+          hintBubble.style.display = isVisible ? 'none' : 'block';
+          analytics.record('hint', { enigma: 'enigma2' });
+        });
+      }
 
       container.querySelectorAll('.rel-btn').forEach(btn => {
         btn.addEventListener('click', () => {
