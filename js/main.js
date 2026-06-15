@@ -7,9 +7,11 @@ import { renderEnigma3 } from './screens/enigma-3.js';
 import { renderResolution, renderGameOver } from './screens/resolution.js';
 import { playHeartBeat, playFlatline } from './audio.js';
 import { createNeuralParticles } from './particles.js';
+import { createAnalytics } from './analytics.js';
 
 const app = document.getElementById('app');
 const stateMachine = createStateMachine();
+const analytics = createAnalytics();
 let heartBeatStop = null;
 let timerInterval = null;
 let startTime = Date.now();
@@ -85,18 +87,25 @@ function renderPhase(phase) {
       }
       break;
     case PHASES.ENIGMA1:
-      renderEnigma1(app, stateMachine);
+      analytics.record('phase-start', { phase: 'enigma1' });
+      analytics.record('phase-change', { from: 'boot', to: 'enigma1' });
+      renderEnigma1(app, stateMachine, analytics);
       break;
     case PHASES.ENIGMA2:
-      renderEnigma2(app, stateMachine);
+      analytics.record('phase-complete', { phase: 'enigma1' });
+      analytics.record('phase-start', { phase: 'enigma2' });
+      renderEnigma2(app, stateMachine, analytics);
       break;
     case PHASES.ENIGMA3:
-      renderEnigma3(app, stateMachine);
+      analytics.record('phase-complete', { phase: 'enigma2' });
+      analytics.record('phase-start', { phase: 'enigma3' });
+      renderEnigma3(app, stateMachine, analytics);
       break;
     case PHASES.RESOLUTION:
       if (timerInterval) clearInterval(timerInterval);
       timerInterval = null;
-      renderResolution(app, state);
+      analytics.record('phase-complete', { phase: 'enigma3' });
+      renderResolution(app, state, analytics);
       break;
     case PHASES.GAMEOVER:
       if (timerInterval) clearInterval(timerInterval);

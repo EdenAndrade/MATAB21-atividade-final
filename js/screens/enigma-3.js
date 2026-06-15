@@ -3,7 +3,7 @@ import { showFeedback } from '../feedback.js';
 import { playCorrectSound, playErrorSound, playHealSound } from '../audio.js';
 import { createTimer } from '../dom-utils.js';
 
-export function renderEnigma3(container, stateMachine) {
+export function renderEnigma3(container, stateMachine, analytics) {
   const screenTimer = createTimer();
   let currentRound = 0;
   let step = 0;
@@ -67,6 +67,8 @@ ${round.code.map((line, i) => `${String(i + 1).padStart(2, '0')}  ${line}`).join
             step = 1;
             screenTimer.setTimeout(renderStep, 1200);
           } else {
+            analytics.record('error', { reason: 'wrong-trace', enigma: 'enigma3' });
+            analytics.record('attempt', { enigma: 'enigma3' });
             playErrorSound();
             errorsInStep++;
             showFeedback('enigma3', 'error', Math.min(errorsInStep - 1, 3), feedbackZone);
@@ -113,6 +115,8 @@ ${round.code.map((line, i) => `<span class="code-line" data-line="${i + 1}" styl
             step = 2;
             screenTimer.setTimeout(renderStep, 1200);
           } else {
+            analytics.record('error', { reason: 'wrong-error-line', enigma: 'enigma3' });
+            analytics.record('attempt', { enigma: 'enigma3' });
             playErrorSound();
             errorsInStep++;
             showFeedback('enigma3', 'error', Math.min(errorsInStep - 1, 3), feedbackZone);
@@ -181,6 +185,8 @@ ${round.code.map((line, i) => `<span class="code-line" data-line="${i + 1}" styl
               screenTimer.setTimeout(() => { stateMachine.completeEnigma(); }, 2000);
             }
           } else {
+            analytics.record('error', { reason: 'wrong-fix', enigma: 'enigma3' });
+            analytics.record('attempt', { enigma: 'enigma3' });
             playErrorSound();
             errorsInStep++;
             showFeedback('enigma3', 'error', Math.min(errorsInStep - 1, 3), feedbackZone);

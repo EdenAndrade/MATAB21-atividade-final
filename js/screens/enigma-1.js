@@ -3,7 +3,7 @@ import { showFeedback } from '../feedback.js';
 import { playCorrectSound, playErrorSound } from '../audio.js';
 import { createTimer } from '../dom-utils.js';
 
-export function renderEnigma1(container, stateMachine) {
+export function renderEnigma1(container, stateMachine, analytics) {
   const screenTimer = createTimer();
   let currentRound = 0;
   const totalRounds = ROUNDS.length;
@@ -86,6 +86,8 @@ export function renderEnigma1(container, stateMachine) {
             screenTimer.setTimeout(() => { stateMachine.completeEnigma(); }, 1500);
           }
         } else {
+          analytics.record('error', { reason: 'wrong-gate', enigma: 'enigma1' });
+          analytics.record('attempt', { enigma: 'enigma1' });
           playErrorSound();
           errorsInStep++;
           const errIdx = Math.min(errorsInStep - 1, 3);

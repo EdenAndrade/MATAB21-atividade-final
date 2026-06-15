@@ -3,7 +3,7 @@ import { showFeedback } from '../feedback.js';
 import { playCorrectSound, playErrorSound } from '../audio.js';
 import { createTimer } from '../dom-utils.js';
 
-export function renderEnigma2(container, stateMachine) {
+export function renderEnigma2(container, stateMachine, analytics) {
   const screenTimer = createTimer();
   let currentRound = 0;
   let step = 0;
@@ -80,6 +80,8 @@ export function renderEnigma2(container, stateMachine) {
             step = 1;
             screenTimer.setTimeout(renderStep, 1200);
           } else {
+            analytics.record('error', { reason: 'wrong-entity', enigma: 'enigma2' });
+            analytics.record('attempt', { enigma: 'enigma2' });
             playErrorSound();
             errorsInStep++;
             showFeedback('enigma2', 'error', Math.min(errorsInStep - 1, 3), feedbackZone);
@@ -156,6 +158,8 @@ export function renderEnigma2(container, stateMachine) {
               screenTimer.setTimeout(() => { stateMachine.completeEnigma(); }, 1500);
             }
           } else {
+            analytics.record('error', { reason: 'wrong-relation', enigma: 'enigma2' });
+            analytics.record('attempt', { enigma: 'enigma2' });
             playErrorSound();
             errorsInStep++;
             showFeedback('enigma2', 'error', Math.min(errorsInStep - 1, 3), feedbackZone);
