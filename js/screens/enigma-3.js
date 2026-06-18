@@ -83,14 +83,26 @@ ${round.code.map((line, i) => `${String(i + 1).padStart(2, '0')}  ${line}`).join
             showFeedback('enigma3', 'success', 0, feedbackZone);
             errorsInStep = 0;
             step = 1;
-            screenTimer.setTimeout(renderStep, 1200);
+            const continueBtn = document.createElement('button');
+            continueBtn.className = 'continue-btn';
+            continueBtn.textContent = '[ Enter ] Continuar';
+            feedbackZone.appendChild(continueBtn);
+            continueBtn.focus();
+            continueBtn.addEventListener('click', renderStep);
           } else {
             analytics.record('error', { reason: 'wrong-trace', enigma: 'enigma3' });
             analytics.record('attempt', { enigma: 'enigma3' });
             playErrorSound();
             errorsInStep++;
             showFeedback('enigma3', 'error', Math.min(errorsInStep - 1, 3), feedbackZone);
-            container.querySelectorAll('button').forEach(b => b.style.pointerEvents = '');
+            const explanationEl = document.createElement('div');
+            explanationEl.className = 'error-explanation';
+            explanationEl.textContent = `O valor ${btn.dataset.value} não é a saída correta. fatorial(0) retorna ${round.correctTrace}.`;
+            feedbackZone.appendChild(explanationEl);
+            screenTimer.setTimeout(() => {
+              explanationEl.remove();
+              container.querySelectorAll('button').forEach(b => b.style.pointerEvents = '');
+            }, 3000);
           }
         });
       });
@@ -147,7 +159,12 @@ ${round.code.map((line, i) => `<span class="code-line" data-line="${i + 1}" styl
             el.style.background = 'rgba(0,255,65,0.15)';
             errorsInStep = 0;
             step = 2;
-            screenTimer.setTimeout(renderStep, 1200);
+            const continueBtn = document.createElement('button');
+            continueBtn.className = 'continue-btn';
+            continueBtn.textContent = '[ Enter ] Continuar';
+            feedbackZone.appendChild(continueBtn);
+            continueBtn.focus();
+            continueBtn.addEventListener('click', renderStep);
           } else {
             analytics.record('error', { reason: 'wrong-error-line', enigma: 'enigma3' });
             analytics.record('attempt', { enigma: 'enigma3' });
@@ -155,8 +172,15 @@ ${round.code.map((line, i) => `<span class="code-line" data-line="${i + 1}" styl
             errorsInStep++;
             showFeedback('enigma3', 'error', Math.min(errorsInStep - 1, 3), feedbackZone);
             el.style.background = 'rgba(255,0,51,0.15)';
-            screenTimer.setTimeout(() => { el.style.background = 'transparent'; }, 800);
-            container.querySelectorAll('.code-line').forEach(s => s.style.pointerEvents = '');
+            const explanationEl = document.createElement('div');
+            explanationEl.className = 'error-explanation';
+            explanationEl.textContent = `A linha ${el.dataset.line} não contém o erro. O erro está na linha ${round.errorLine}.`;
+            feedbackZone.appendChild(explanationEl);
+            screenTimer.setTimeout(() => {
+              el.style.background = 'transparent';
+              explanationEl.remove();
+              container.querySelectorAll('.code-line').forEach(s => s.style.pointerEvents = '');
+            }, 3000);
           }
         });
       });
@@ -230,9 +254,19 @@ ${round.code.map((line, i) => `<span class="code-line" data-line="${i + 1}" styl
               currentRound++;
               step = 0;
               errorsInStep = 0;
-              screenTimer.setTimeout(renderStep, 1500);
+              const continueBtn = document.createElement('button');
+              continueBtn.className = 'continue-btn';
+              continueBtn.textContent = '[ Enter ] Próxima rodada';
+              feedbackZone.appendChild(continueBtn);
+              continueBtn.focus();
+              continueBtn.addEventListener('click', renderStep);
             } else {
-              screenTimer.setTimeout(() => { stateMachine.completeEnigma(); }, 2000);
+              const continueBtn = document.createElement('button');
+              continueBtn.className = 'continue-btn';
+              continueBtn.textContent = '[ Enter ] Ver resultado';
+              feedbackZone.appendChild(continueBtn);
+              continueBtn.focus();
+              continueBtn.addEventListener('click', () => stateMachine.completeEnigma());
             }
           } else {
             analytics.record('error', { reason: 'wrong-fix', enigma: 'enigma3' });
@@ -240,8 +274,15 @@ ${round.code.map((line, i) => `<span class="code-line" data-line="${i + 1}" styl
             playErrorSound();
             errorsInStep++;
             showFeedback('enigma3', 'error', Math.min(errorsInStep - 1, 3), feedbackZone);
+            const explanationEl = document.createElement('div');
+            explanationEl.className = 'error-explanation';
+            explanationEl.textContent = `"${btn.dataset.fix}" não corrige o erro. A correção correta é: "${round.correctFix}"`;
+            feedbackZone.appendChild(explanationEl);
             btn.style.animation = 'shake 0.3s ease';
-            container.querySelectorAll('button').forEach(b => b.style.pointerEvents = '');
+            screenTimer.setTimeout(() => {
+              explanationEl.remove();
+              container.querySelectorAll('button').forEach(b => b.style.pointerEvents = '');
+            }, 3000);
           }
         });
       });

@@ -96,15 +96,27 @@ export function renderEnigma2(container, stateMachine, analytics) {
             showFeedback('enigma2', 'success', 0, feedbackZone);
             errorsInStep = 0;
             step = 1;
-            screenTimer.setTimeout(renderStep, 1200);
+            const continueBtn = document.createElement('button');
+            continueBtn.className = 'continue-btn';
+            continueBtn.textContent = '[ Enter ] Continuar';
+            feedbackZone.appendChild(continueBtn);
+            continueBtn.focus();
+            continueBtn.addEventListener('click', renderStep);
           } else {
             analytics.record('error', { reason: 'wrong-entity', enigma: 'enigma2' });
             analytics.record('attempt', { enigma: 'enigma2' });
             playErrorSound();
             errorsInStep++;
             showFeedback('enigma2', 'error', Math.min(errorsInStep - 1, 3), feedbackZone);
+            const explanationEl = document.createElement('div');
+            explanationEl.className = 'error-explanation';
+            explanationEl.textContent = `"${btn.dataset.entity}" não é a entidade ausente. A entidade faltante é "${round.missingEntity}".`;
+            feedbackZone.appendChild(explanationEl);
             btn.style.animation = 'shake 0.3s ease';
-            container.querySelectorAll('button').forEach(b => b.style.pointerEvents = '');
+            screenTimer.setTimeout(() => {
+              explanationEl.remove();
+              container.querySelectorAll('button').forEach(b => b.style.pointerEvents = '');
+            }, 2500);
           }
         });
       });
@@ -189,9 +201,19 @@ export function renderEnigma2(container, stateMachine, analytics) {
               currentRound++;
               step = 0;
               errorsInStep = 0;
-              screenTimer.setTimeout(renderStep, 1200);
+              const continueBtn = document.createElement('button');
+              continueBtn.className = 'continue-btn';
+              continueBtn.textContent = '[ Enter ] Continuar';
+              feedbackZone.appendChild(continueBtn);
+              continueBtn.focus();
+              continueBtn.addEventListener('click', renderStep);
             } else {
-              screenTimer.setTimeout(() => { stateMachine.completeEnigma(); }, 1500);
+              const continueBtn = document.createElement('button');
+              continueBtn.className = 'continue-btn';
+              continueBtn.textContent = '[ Enter ] Ver resultado';
+              feedbackZone.appendChild(continueBtn);
+              continueBtn.focus();
+              continueBtn.addEventListener('click', () => stateMachine.completeEnigma());
             }
           } else {
             analytics.record('error', { reason: 'wrong-relation', enigma: 'enigma2' });
@@ -199,8 +221,15 @@ export function renderEnigma2(container, stateMachine, analytics) {
             playErrorSound();
             errorsInStep++;
             showFeedback('enigma2', 'error', Math.min(errorsInStep - 1, 3), feedbackZone);
+            const explanationEl = document.createElement('div');
+            explanationEl.className = 'error-explanation';
+            explanationEl.textContent = `"${btn.dataset.rel}" não conecta "aluno" a "${round.missingEntity}". O relacionamento correto é "${round.correctRelationship}".`;
+            feedbackZone.appendChild(explanationEl);
             btn.style.animation = 'shake 0.3s ease';
-            container.querySelectorAll('button').forEach(b => b.style.pointerEvents = '');
+            screenTimer.setTimeout(() => {
+              explanationEl.remove();
+              container.querySelectorAll('button').forEach(b => b.style.pointerEvents = '');
+            }, 3000);
           }
         });
       });

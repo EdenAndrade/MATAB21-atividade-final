@@ -92,17 +92,26 @@ export function renderEnigma1(container, stateMachine, analytics) {
 
         if (result.correct) {
           playCorrectSound();
-          showFeedback('enigma1', 'success', 0, feedbackZone);
+          showFeedback('enigma1', 'success', progress, feedbackZone);
           btn.style.cssText = `padding:12px 24px;font-family:var(--font-mono);font-size:18px;font-weight:700;color:var(--color-green);background:rgba(0,255,65,0.15);border:1px solid var(--color-green);border-radius:4px;`;
 
           progress++;
           errorsInStep = 0;
 
-          if (currentRound < totalRounds - 1) {
-            screenTimer.setTimeout(() => { currentRound++; renderRound(); }, 1200);
-          } else {
-            screenTimer.setTimeout(() => { stateMachine.completeEnigma(); }, 1500);
-          }
+          // Show Continue button instead of auto-advance
+          const continueBtn = document.createElement('button');
+          continueBtn.className = 'continue-btn';
+          continueBtn.textContent = '[ Enter ] Continuar';
+          feedbackZone.appendChild(continueBtn);
+          continueBtn.focus();
+          continueBtn.addEventListener('click', () => {
+            if (currentRound < totalRounds - 1) {
+              currentRound++;
+              renderRound();
+            } else {
+              stateMachine.completeEnigma();
+            }
+          });
         } else {
           analytics.record('error', { reason: 'wrong-gate', enigma: 'enigma1' });
           analytics.record('attempt', { enigma: 'enigma1' });
@@ -112,7 +121,13 @@ export function renderEnigma1(container, stateMachine, analytics) {
           showFeedback('enigma1', 'error', errIdx, feedbackZone);
           btn.style.cssText = `padding:12px 24px;font-family:var(--font-mono);font-size:18px;font-weight:700;color:var(--color-critical);background:rgba(255,0,51,0.1);border:1px solid var(--color-critical);border-radius:4px;animation:shake 0.3s ease;`;
 
-          screenTimer.setTimeout(() => { renderRound(); }, 1000);
+          // Add error explanation
+          const explanationEl = document.createElement('div');
+          explanationEl.className = 'error-explanation';
+          explanationEl.textContent = `"${selected}" retorna ${result.output} para A=${round.a}, B=${round.b}. A saída esperada é ${result.expected}. A porta correta é "${round.correctGate}".`;
+          feedbackZone.appendChild(explanationEl);
+
+          screenTimer.setTimeout(() => { renderRound(); }, 2500);
         }
       });
     });
