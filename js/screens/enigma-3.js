@@ -97,7 +97,7 @@ ${round.code.map((line, i) => `${String(i + 1).padStart(2, '0')}  ${line}`).join
             showFeedback('enigma3', 'error', Math.min(errorsInStep - 1, 3), feedbackZone);
             const explanationEl = document.createElement('div');
             explanationEl.className = 'error-explanation';
-            explanationEl.textContent = `O valor ${btn.dataset.value} não é a saída correta. fatorial(0) retorna ${round.correctTrace}.`;
+            explanationEl.textContent = `O valor ${btn.dataset.value} não é a saída correta. Simule a execução manualmente: aplique a condição de parada com n=0 e veja o que a função retorna.`;
             feedbackZone.appendChild(explanationEl);
             screenTimer.setTimeout(() => {
               explanationEl.remove();
@@ -174,7 +174,7 @@ ${round.code.map((line, i) => `<span class="code-line" data-line="${i + 1}" styl
             el.style.background = 'rgba(255,0,51,0.15)';
             const explanationEl = document.createElement('div');
             explanationEl.className = 'error-explanation';
-            explanationEl.textContent = `A linha ${el.dataset.line} não contém o erro. O erro está na linha ${round.errorLine}.`;
+            explanationEl.textContent = `A linha ${el.dataset.line} não contém o erro. Rastreie a execução passo a passo: o problema está na condição de parada — o valor retornado nela causa o erro recursivo.`;
             feedbackZone.appendChild(explanationEl);
             screenTimer.setTimeout(() => {
               el.style.background = 'transparent';
@@ -276,7 +276,7 @@ ${round.code.map((line, i) => `<span class="code-line" data-line="${i + 1}" styl
             showFeedback('enigma3', 'error', Math.min(errorsInStep - 1, 3), feedbackZone);
             const explanationEl = document.createElement('div');
             explanationEl.className = 'error-explanation';
-            explanationEl.textContent = `"${btn.dataset.fix}" não corrige o erro. A correção correta é: "${round.correctFix}"`;
+            explanationEl.textContent = `"${btn.dataset.fix}" não resolve o erro. O caso base precisa retornar um valor que interrompa a recursão corretamente — pense no que fatorial(0) e fatorial(1) devem produzir.`;
             feedbackZone.appendChild(explanationEl);
             btn.style.animation = 'shake 0.3s ease';
             screenTimer.setTimeout(() => {

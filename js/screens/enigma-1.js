@@ -124,7 +124,7 @@ export function renderEnigma1(container, stateMachine, analytics) {
           // Add error explanation
           const explanationEl = document.createElement('div');
           explanationEl.className = 'error-explanation';
-          explanationEl.textContent = `"${selected}" retorna ${result.output} para A=${round.a}, B=${round.b}. A saída esperada é ${result.expected}. A porta correta é "${round.correctGate}".`;
+          explanationEl.textContent = `"${selected}" retorna ${result.output} para A=${round.a}, B=${round.b}, mas o circuito espera ${result.expected}. Compare a tabela verdade: a porta correta é diferente.`;
           feedbackZone.appendChild(explanationEl);
 
           screenTimer.setTimeout(() => { renderRound(); }, 2500);

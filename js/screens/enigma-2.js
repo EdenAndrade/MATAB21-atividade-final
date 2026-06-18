@@ -110,7 +110,7 @@ export function renderEnigma2(container, stateMachine, analytics) {
             showFeedback('enigma2', 'error', Math.min(errorsInStep - 1, 3), feedbackZone);
             const explanationEl = document.createElement('div');
             explanationEl.className = 'error-explanation';
-            explanationEl.textContent = `"${btn.dataset.entity}" não é a entidade ausente. A entidade faltante é "${round.missingEntity}".`;
+            explanationEl.textContent = `"${btn.dataset.entity}" não é a entidade ausente. Observe as chaves estrangeiras — uma entidade do modelo não tem tabela própria e está sendo referenciada nos relacionamentos.`;
             feedbackZone.appendChild(explanationEl);
             btn.style.animation = 'shake 0.3s ease';
             screenTimer.setTimeout(() => {
@@ -223,7 +223,7 @@ export function renderEnigma2(container, stateMachine, analytics) {
             showFeedback('enigma2', 'error', Math.min(errorsInStep - 1, 3), feedbackZone);
             const explanationEl = document.createElement('div');
             explanationEl.className = 'error-explanation';
-            explanationEl.textContent = `"${btn.dataset.rel}" não conecta "aluno" a "${round.missingEntity}". O relacionamento correto é "${round.correctRelationship}".`;
+            explanationEl.textContent = `"${btn.dataset.rel}" não conecta "aluno" à entidade ausente. Verifique a cardinalidade: qual relacionamento faz sentido entre um aluno e essa entidade?`;
             feedbackZone.appendChild(explanationEl);
             btn.style.animation = 'shake 0.3s ease';
             screenTimer.setTimeout(() => {
