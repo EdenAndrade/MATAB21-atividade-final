@@ -1,9 +1,2 @@
 node_modules/
 dist/
-# AI tooling (local only, not part of the game)
-.superpowers/
-docs/superpowers/
-.serena/
-.remember/
-.claude/
-CLAUDE.md
