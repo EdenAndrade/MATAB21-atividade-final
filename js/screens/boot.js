@@ -8,6 +8,7 @@ export function renderBoot(container, stateMachine) {
   container.innerHTML = `
     <div class="screen screen-boot" data-active="true" role="region" aria-label="Inicialização do bio-servidor">
       <div class="boot-terminal">
+        <div class="boot-title">NÚCLEO EM COLAPSO</div>
         <div class="boot-line">SISTEMA CORROMPIDO.</div>
         <div class="boot-line">INICIANDO PROTOCOLO DE REPARO...</div>
         <div class="boot-line">VERIFICANDO INTEGRIDADE DOS MÓDULOS...</div>
