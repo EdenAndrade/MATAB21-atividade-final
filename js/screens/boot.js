@@ -27,5 +27,5 @@ export function renderBoot(container, stateMachine) {
 
   timer.setTimeout(() => {
     stateMachine.transition(PHASES.ENIGMA1);
-  }, 5000);
+  }, 5500);
 }
